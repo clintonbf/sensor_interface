@@ -7,9 +7,7 @@ class SensorInterface(metaclass=abc.ABCMeta):
         return (hasattr(subclass, 'connect_to_port') and
                 callable(subclass.connect_to_port) and
                 hasattr(subclass, 'get_raw_data') and
-                callable(subclass.get_raw_data) and
-                hasattr(subclass, 'format_data') and
-                callable(subclass.format_data) or
+                callable(subclass.get_raw_data) or
                 NotImplemented)
 
     @abc.abstractmethod
@@ -18,10 +16,6 @@ class SensorInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def get_raw_data(self) -> bytes:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def format_data(self) -> dict:
         raise NotImplementedError
 
     def print_formatted_data(self, data: dict):

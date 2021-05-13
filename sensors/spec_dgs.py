@@ -1,4 +1,7 @@
+import abc
+
 from sensors import SensorInterface
+from unit_conversion import celsius_to_kelvin
 import serial
 
 DATA_INDICES = {
@@ -16,7 +19,7 @@ DATA_INDICES = {
 }
 
 
-class spec_dgs(SensorInterface):
+class spec_dgs(SensorInterface, metaclass=abc.ABCMeta):
     """
         Credit for connect_to_port and get_raw_data goes to
         Noah MacRitchie (noah21mac@gmail.com) and Andrey Goryelov (andrey.goryelov@gmail.com)
@@ -28,6 +31,12 @@ class spec_dgs(SensorInterface):
         self.__timeout = timeout
         self.__baud_rate = baud_rate
         self.__reading = ()
+
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        return(hasattr(subclass, 'format_data') and
+               callable(subclass.format_data) or
+               NotImplemented)
 
     def connect_to_port(self) -> serial:
         # TODO error checking?
@@ -50,11 +59,9 @@ class spec_dgs(SensorInterface):
 
         return line
 
-    def take_reading(self) -> tuple:
+    def take_reading(self):
         f"""
         Formats sensor raw data into just numeric values.
-        
-        :return: {tuple} 
         """
         raw_data = self.get_raw_data().decode().split()
         reading = []
@@ -63,7 +70,7 @@ class spec_dgs(SensorInterface):
             pre_reading = raw_data[i].split(",")
             reading.append(pre_reading[0])
 
-        return tuple(reading)
+        self.__reading = tuple(reading)
 
     def get_uid(self):
         return self.__uid
@@ -87,11 +94,9 @@ class spec_dgs(SensorInterface):
 
         :return: {float} 
         """
-        conversion_factor = 273.15
-
         temp_in_celsius = float(self.__reading[DATA_INDICES["temperature"]])
 
-        return temp_in_celsius + conversion_factor
+        return celsius_to_kelvin(temp_in_celsius)
 
     def get_relative_humidity(self) -> float:
         return float(self.__reading[DATA_INDICES["relative_humidity"]])
@@ -117,13 +122,6 @@ class spec_dgs(SensorInterface):
     def get_second(self) -> int:
         return int(self.__reading[DATA_INDICES["second"]])
 
+    @abc.abstractmethod
     def format_data(self) -> dict:
-        reading = {
-            "uid": self.get_uid(),
-            "serial_number": self.get_serial_number(),
-            "measurement": self.get_measurement(),
-            "temperature": self.get_temperature(),
-            "relative_humidity": self.get_relative_humidity(),
-        }
-
-        return reading
+        raise NotImplementedError
