@@ -1,4 +1,4 @@
-import SensorInterface
+from sensors import SensorInterface
 import serial
 
 
@@ -27,3 +27,6 @@ class spec_dgs(SensorInterface):
         ser.write(self.__end_reading.encode())
 
         return line
+
+    def format_data(self, raw_data) -> dict:
+        pass
