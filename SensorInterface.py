@@ -11,7 +11,7 @@ class SensorInterface(metaclass=abc.ABCMeta):
                NotImplemented)
 
     @abc.abstractmethod
-    def connect_to_port(self, device: str, timeout:int, baud_rate: int):
+    def connect_to_port(self):
         raise NotImplementedError
 
     @abc.abstractmethod

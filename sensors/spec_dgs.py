@@ -16,6 +16,7 @@ class spec_dgs(SensorInterface):
         self.__baud_rate = baud_rate
 
     def connect_to_port(self) -> serial:
+        # TODO error checking?
         ser = serial.Serial(self.__device, self.__baud_rate, timeout=self.__timeout, parity=serial.PARITY_NONE)
         return ser
 
