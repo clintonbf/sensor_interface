@@ -21,8 +21,9 @@ class SensorInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def format_data(self, raw_data) -> dict:
+    def format_data(self) -> dict:
         raise NotImplementedError
 
     def print_formatted_data(self, data: dict):
-        print(data)
+        for (key) in data:
+            print(key, ":", data[key])
