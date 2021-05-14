@@ -1,4 +1,7 @@
-from sensors import co_sensor, spec_dgs
+from sensors import spec_co_sensor
+
+# Copyright Clinton Fernandes (clint.fernandes@gmail.com) 2021
+
 
 DEVICE = '/dev/ttyUSB0'
 TIMEOUT = 10
@@ -8,12 +11,11 @@ UUID = 5000
 
 
 def main():
-    co = co_sensor(UUID, DEVICE, TIMEOUT, BAUD_RATE)
-
+    co = spec_co_sensor(UUID, DEVICE, TIMEOUT, BAUD_RATE)
     co.take_reading()
-    co.print_data()
 
-    # spec_dgs_instance = spec_dgs(DEVICE, TIMEOUT, BAUD_RATE)
+    reading_data = co.format_data()
+    co.print_formatted_data(reading_data)
 
 
 if __name__ == '__main__':
