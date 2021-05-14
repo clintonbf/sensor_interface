@@ -64,14 +64,8 @@ class spec_dgs(SensorInterface, metaclass=abc.ABCMeta):
         f"""
         Formats sensor raw data into just numeric values.
         """
-        raw_data = self.get_raw_data().decode().split()
-        reading = []
 
-        for i in range(0, len(raw_data)):
-            pre_reading = raw_data[i].split(",")
-            reading.append(pre_reading[0])
-
-        self.__reading = tuple(reading)
+        self.__reading = tuple(self.get_raw_data().decode().split(","))
 
     def get_uid(self):
         return self.__uid
