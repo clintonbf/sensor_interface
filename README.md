@@ -1,4 +1,4 @@
-# sensor_interface
+# Sensor interface
 Copyright: Clinton Fernandes (2021)
 
 
