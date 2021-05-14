@@ -1,6 +1,8 @@
 from sensors import spec_dgs
 from unit_conversion import ppb_to_ppm
 
+# Copyright Clinton Fernandes (clint.fernandes@gmail.com) 2021
+
 
 class spec_co_sensor(spec_dgs):
     def __init__(self, uid: int, device: str, timeout: int, baud_rate: int):

@@ -1,3 +1,5 @@
+# Copyright Clinton Fernandes (clint.fernandes@gmail.com) 2021
+
 def celsius_to_kelvin(temp_in_celsius: float) -> float:
     f"""
     Converts a temperature in degrees Celsius/Centigrade to degrees Kelvin.
